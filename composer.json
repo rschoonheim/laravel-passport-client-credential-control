@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "rschoonheim/laravel-passport-client-credential-control",
+    "description": "A package to control the client credentials of Laravel Passport",
     "keywords": [
-        ":vendor_name",
+        "Romano Schoonheim",
         "laravel",
-        ":package_slug"
+        "laravel-passport-client-credential-control"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/rschoonheim/laravel-passport-client-credential-control",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Romano Schoonheim",
+            "email": "romano@sphere.sh",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Rschoonheim\\LaravelPassportClientCredentialControl\\": "src/",
+            "Rschoonheim\\LaravelPassportClientCredentialControl\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Rschoonheim\\LaravelPassportClientCredentialControl\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,7 +63,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "LaravelPassportClientCredentialControlServiceProvider"
             ],
             "aliases": {
                 "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"

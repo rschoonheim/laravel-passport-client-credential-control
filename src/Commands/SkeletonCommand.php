@@ -1,6 +1,7 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Rschoonheim\LaravelPassportClientCredentialControl\Commands;
+
 
 use Illuminate\Console\Command;
 

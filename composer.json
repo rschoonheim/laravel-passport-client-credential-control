@@ -63,7 +63,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelPassportClientCredentialControlServiceProvider"
+                "Rschoonheim\\LaravelPassportClientCredentialContro\\LaravelPassportClientCredentialControlServiceProvider"
             ],
             "aliases": {
                 "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"

@@ -23,7 +23,6 @@ class LaravelPassportClientCredentialControlServiceProvider extends PackageServi
             ->hasMigration('create_password_client_allowed_scopes_table')
             ->hasCommand(OauthClientCreateCommand::class);
 
-
     }
 
     public function bootingPackage(): void

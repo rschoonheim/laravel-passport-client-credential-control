@@ -24,6 +24,10 @@ class LaravelPassportClientCredentialControlServiceProvider extends PackageServi
             ->hasCommand(OauthClientCreateCommand::class);
 
 
+    }
+
+    public function bootingPackage(): void
+    {
         Passport::tokenModel()::observe(TokenObserver::class);
     }
 }

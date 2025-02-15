@@ -13,6 +13,19 @@ This package provides a way to have control over the scopes that a client can re
 To install the package, use the following command:
 
 ```bash
+$ composer require composer require rschoonheim/laravel-passport-client-credential-control
+```
+
+Next, publish the configuration and migration files:
+
+```bash
+$ php artisan vendor:publish --provider="Rschoonheim\LaravelPassportClientCredentialControl\LaravelPassportClientCredentialControlServiceProvider"
+```
+
+After publishing the configuration and migration files, run the migration:
+
+```bash
+$ php artisan migrate
 ```
 
 ## Using the package

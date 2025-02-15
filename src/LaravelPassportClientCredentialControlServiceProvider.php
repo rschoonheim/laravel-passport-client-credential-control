@@ -2,9 +2,11 @@
 
 namespace Rschoonheim\LaravelPassportClientCredentialControl;
 
+use Laravel\Passport\Passport;
+use Rschoonheim\LaravelPassportClientCredentialControl\Commands\OauthClientCreateCommand;
+use Rschoonheim\LaravelPassportClientCredentialControl\Observers\TokenObserver;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
 
 class LaravelPassportClientCredentialControlServiceProvider extends PackageServiceProvider
 {
@@ -16,10 +18,12 @@ class LaravelPassportClientCredentialControlServiceProvider extends PackageServi
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('laravel-passport-client-credential-control')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasMigration('create_password_client_allowed_scopes_table')
+            ->hasCommand(OauthClientCreateCommand::class);
+
+
+        Passport::tokenModel()::observe(TokenObserver::class);
     }
 }

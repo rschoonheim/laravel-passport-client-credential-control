@@ -65,9 +65,7 @@
             "providers": [
                 "Rschoonheim\\LaravelPassportClientCredentialControl\\LaravelPassportClientCredentialControlServiceProvider"
             ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+            "aliases": {}
         }
     },
     "minimum-stability": "dev",

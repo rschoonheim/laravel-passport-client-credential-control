@@ -2,7 +2,6 @@
 
 namespace Rschoonheim\LaravelPassportClientCredentialControl\Commands;
 
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

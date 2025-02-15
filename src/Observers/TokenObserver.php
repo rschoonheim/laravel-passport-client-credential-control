@@ -14,7 +14,6 @@ class TokenObserver
     {
         $client = Passport::clientModel()::find($token->client_id);
 
-
         Log::warning('Token created', [
             'client_id' => $client,
         ]);
@@ -32,7 +31,7 @@ class TokenObserver
             ->select('scopes')
             ->get()
             // Flatten scopes.
-            ->map(fn($item) => json_decode($item->scopes))
+            ->map(fn ($item) => json_decode($item->scopes))
             ->flatten()
             ->toArray();
 
@@ -46,12 +45,10 @@ class TokenObserver
             ->diff($allowedScopes)
             ->isNotEmpty();
 
-
         if ($hasNotAllowedScopes) {
             $token->revoked = true;
             throw new OAuthServerException('Requested scope(s) not allowed for client', 401, 'not_allowed_scopes');
         }
-
 
     }
 }

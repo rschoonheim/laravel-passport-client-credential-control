@@ -27,7 +27,7 @@ class TokenObserver
         }
 
         // Throw exception if no scopes are allowed for the client.
-        if (empty($allowedScopes) && !empty($token->scopes)) {
+        if (empty($allowedScopes) && ! empty($token->scopes)) {
             throw new OAuthServerException('Requested scope(s) not allowed for client', 401, 'not_allowed_scopes');
         }
 
@@ -41,7 +41,6 @@ class TokenObserver
     /**
      * Returns array containing allowed scopes for the client related to the token.
      *
-     * @param Token $token
      * @return array|null - array containing allowed scopes or null when client_id is not found in password_client_allowed_scopes table.
      */
     private function getAllowedScopes(Token $token): ?array
@@ -51,15 +50,13 @@ class TokenObserver
         $scopeQuery = DB::table('password_client_allowed_scopes')
             ->where($uuids ? 'client_uuid' : 'client_id', $token->client_id);
 
-        if (!$scopeQuery->exists()) {
+        if (! $scopeQuery->exists()) {
             return null;
         }
 
         return $scopeQuery->pluck('scopes')
-            ->map(fn($scopes) => json_decode($scopes))
+            ->map(fn ($scopes) => json_decode($scopes))
             ->flatten()
             ->toArray();
     }
-
-
 }

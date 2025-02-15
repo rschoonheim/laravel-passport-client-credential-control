@@ -11,7 +11,7 @@ class PassportClientAllowedScopeRepository
         $column = config('passport.client_uuids', false) ? 'client_uuid' : 'client_id';
         $scopeQuery = DB::table('password_client_allowed_scopes')->where($column, $clientId);
 
-        if (!$scopeQuery->exists()) {
+        if (! $scopeQuery->exists()) {
             return null;
         }
 

@@ -24,19 +24,21 @@ class OauthClientUpdateCommand extends Command
     {
         $id = $this->ask('What is the id of the client?');
         $client = Passport::clientModel()::find($id);
-        if (!$client) {
+        if (! $client) {
             $this->error('Client not found.');
+
             return self::FAILURE;
         }
 
         $scopes = array_map('trim', array_unique(array_filter(explode(',', $this->ask('What are the allowed scopes? (comma separated)')))));
 
         // Review changes
-        $this->table(['Current scopes'], array_map(fn($scope) => [$scope], $this->passportClientAllowedScopeRepository->getScopesByClientId($client->id)));
-        $this->table(['New scopes'], array_map(fn($scope) => [$scope], $scopes));
+        $this->table(['Current scopes'], array_map(fn ($scope) => [$scope], $this->passportClientAllowedScopeRepository->getScopesByClientId($client->id)));
+        $this->table(['New scopes'], array_map(fn ($scope) => [$scope], $scopes));
 
-        if (!$this->confirm('Do you want to update the allowed scopes of the client?')) {
-            $this->comment("No changes made.");
+        if (! $this->confirm('Do you want to update the allowed scopes of the client?')) {
+            $this->comment('No changes made.');
+
             return self::SUCCESS;
         }
 

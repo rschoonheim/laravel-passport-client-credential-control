@@ -14,6 +14,8 @@ class TokenObserver
             'user_id' => null,
         ]);
 
+
+
         if ($token->client->isConfidential()) {
             return;
         }

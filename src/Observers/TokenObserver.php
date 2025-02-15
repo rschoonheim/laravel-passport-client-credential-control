@@ -3,7 +3,6 @@
 namespace Rschoonheim\LaravelPassportClientCredentialControl\Observers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -14,41 +13,53 @@ class TokenObserver
     {
         $client = Passport::clientModel()::find($token->client_id);
 
-        Log::warning('Token created', [
-            'client_id' => $client,
-        ]);
-
         // Client must be `Client Credential Grant`.
-        //
-        if ($client->password_client === true || $client->personal_access_client === true) {
+        if ($client->password_client || $client->personal_access_client) {
             return;
         }
 
-        // Collect allowed scopes for client.
-        //
-        $allowedScopes = DB::table('password_client_allowed_scopes')
-            ->where('client_id', $client->id)
-            ->select('scopes')
-            ->get()
-            // Flatten scopes.
-            ->map(fn ($item) => json_decode($item->scopes))
-            ->flatten()
-            ->toArray();
+        // Collect allowed scopes for the token.
+        $allowedScopes = $this->getAllowedScopes($token);
 
-        if (empty($allowedScopes)) {
+        // Return early if the client is uncontrolled.
+        if (is_null($allowedScopes)) {
             return;
         }
 
-        // Check if token has not allowed scopes.
-        //
-        $hasNotAllowedScopes = collect($token->scopes)
-            ->diff($allowedScopes)
-            ->isNotEmpty();
-
-        if ($hasNotAllowedScopes) {
-            $token->revoked = true;
+        // Throw exception if no scopes are allowed for the client.
+        if (empty($allowedScopes) && !empty($token->scopes)) {
             throw new OAuthServerException('Requested scope(s) not allowed for client', 401, 'not_allowed_scopes');
         }
 
+        // Delete token and throw exception if it has not allowed scopes.
+        if (collect($token->scopes)->diff($allowedScopes)->isNotEmpty()) {
+            $token->delete();
+            throw new OAuthServerException('Requested scope(s) not allowed for client', 401, 'not_allowed_scopes');
+        }
     }
+
+    /**
+     * Returns array containing allowed scopes for the client related to the token.
+     *
+     * @param Token $token
+     * @return array|null - array containing allowed scopes or null when client_id is not found in password_client_allowed_scopes table.
+     */
+    private function getAllowedScopes(Token $token): ?array
+    {
+        $uuids = config('passport.client_uuids', false);
+
+        $scopeQuery = DB::table('password_client_allowed_scopes')
+            ->where($uuids ? 'client_uuid' : 'client_id', $token->client_id);
+
+        if (!$scopeQuery->exists()) {
+            return null;
+        }
+
+        return $scopeQuery->pluck('scopes')
+            ->map(fn($scopes) => json_decode($scopes))
+            ->flatten()
+            ->toArray();
+    }
+
+
 }

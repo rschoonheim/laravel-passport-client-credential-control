@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('password_client_allowed_scopes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('oauth_clients')->cascadeOnDelete();
+            $table->foreignId('client_id')->nullable()->constrained('oauth_clients', 'id')->cascadeOnDelete();
+            $table->foreignUuid('client_uuid')->nullable()->constrained('oauth_clients', 'id')->cascadeOnDelete();
             $table->json('scopes')->default('[]');
             $table->timestamps();
         });

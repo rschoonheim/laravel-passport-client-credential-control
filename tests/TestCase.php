@@ -4,7 +4,7 @@ namespace Rschoonheim\LaravelPassportClientCredentialControl\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\LaravelPassportClientCredentialControlServiceProvider;
+use Rschoonheim\LaravelPassportClientCredentialControl\LaravelPassportClientCredentialControlServiceProvider;
 
 class TestCase extends Orchestra
 {

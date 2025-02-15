@@ -1,58 +1,55 @@
 # Laravel Passport Client Credentials Control
 
-Laravel passport client credential grant is used authenticate machine-to-machine communication. Each client can retrieve
-an access token by providing their client id and client secret. There are no capabilities to restrict the scopes that
-the
-client can request. This is a potential security risk as the client can request any scope that is available in the
-system.
+Laravel Passport’s Client Credentials Grant is designed for machine-to-machine authentication, allowing clients to
+obtain an access token using their client ID and secret. However, by default, there are no restrictions on the scopes a
+client can request, posing a potential security risk.
 
-This package provides a way to have control over the scopes that a client can request.
+This package provides a solution by enabling precise control over the scopes that each client can request.
 
-## Installing the package
+## Installation
 
-To install the package, use the following command:
+To install the package, run:
 
 ```bash
-$ composer require composer require rschoonheim/laravel-passport-client-credential-control
+composer require rschoonheim/laravel-passport-client-credential-control
 ```
 
 Next, publish the configuration and migration files:
 
 ```bash
-$ php artisan vendor:publish --provider="Rschoonheim\LaravelPassportClientCredentialControl\LaravelPassportClientCredentialControlServiceProvider"
+php artisan vendor:publish --provider="Rschoonheim\LaravelPassportClientCredentialControl\LaravelPassportClientCredentialControlServiceProvider"
 ```
 
-After publishing the configuration and migration files, run the migration:
+Then, apply the migration:
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
-## Using the package
+## Usage
 
-### Creating a client
+### Creating a Controller Client
 
-To create a controlled client (cc) use the following command:
+To create a client with restricted scopes, use the following command:
 
 ```bash
-$ php artisan passport::cc:create
+php artisan passport:cc:create
 ```
 
-It will ask you for the name of the client and what scopes the client can request.
+You will be prompted to provide a client name and specify the allowed scopes:
 
 ```bash
- What is the name of the client?:
- > example
- 
-What are the allowed scopes? (comma separated):
- > scope1,scope2,scope3
+What is the name of the client?:
+> example
+
+What are the allowed scopes? (comma-separated):
+> scope1,scope2,scope3
 ```
 
-The client id and client secret will be displayed after the client is created.
+Once created, the client ID and secret will be displayed.
 
-#### What is happening behind the scenes?
+#### How It Works
 
-When a controlled client is created, a new client is created using Laravel Passport (using artisan command:
-`passport:client --client`).
-In the `password_client_allowed_scopes` table, are the allowed scopes for the client.
-
+When a controlled client is created, a new client is registered in Laravel Passport using the `passport:client --client`
+command. The allowed scopes for the client are then stored in the `password_client_allowed_scopes` table, ensuring that
+each client can only request explicitly permitted scopes.
